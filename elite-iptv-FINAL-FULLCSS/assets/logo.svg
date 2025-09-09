@@ -1,5 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 72">
-  <defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop offset="0%" stop-color="#E85C2C"/><stop offset="100%" stop-color="#2C4226"/></linearGradient></defs>
-  <text x="20" y="48" font-family="Segoe UI, Roboto, Helvetica, Arial" font-weight="900" font-size="34" fill="#2C4226">ELITE</text>
-  <text x="140" y="48" font-family="Segoe UI, Roboto, Helvetica, Arial" font-weight="800" font-size="28" fill="url(#g)">IPTV</text>
-</svg>
