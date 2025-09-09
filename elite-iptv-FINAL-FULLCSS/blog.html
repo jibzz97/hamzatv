@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Blog</title>
+
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+/* critical fallback */
+:root{--orange:#d05626;--green:#0d4b3f;--line:#e3eae6;--ink:#0b1f19}
+*{box-sizing:border-box}
+body{margin:0;font-family: Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);}
+.header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:1000}
+.header .container{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.6rem 1rem;max-width:1200px;margin:0 auto}
+.header .nav{display:flex;gap:.75rem;flex-wrap:wrap}
+.header .nav a{color:var(--ink);font-weight:600;text-decoration:none;padding:.25rem .25rem}
+.header .nav a:hover,.header .nav a.active{color:var(--orange)}
+.section{padding:2rem 0}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+</style>
+
+</head>
+<body>
+<header class="header">
+  <div class="container">
+    <a href="index.html" class="logo">Elite IPTV</a>
+    <nav><ul>
+      <li><a href="#blog">Blog</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main class="section" id="blog">
+  <div class="container">
+    <h1>Blog</h1>
+    <div id="blogFilters" class="blog-filters">
+      <input id="blogSearch" class="input" placeholder="Search posts..." />
+      <div id="tagCloud" class="tag-cloud"></div>
+    </div>
+    <div id="blogList" class="grid"></div>
+  </div>
+</main>
+
+<script src="js/cms.js"></script>
+<script src="js/blog.js"></script>
+</body>
+</html>

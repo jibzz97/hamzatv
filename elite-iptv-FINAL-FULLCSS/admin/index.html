@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Admin — Blog (Markdown)</title>
+<style>
+.admin{max-width:1100px;margin:40px auto}
+.admin .card{padding:1.2rem}
+input,textarea{width:100%;padding:.7rem;border:1px solid var(--line);border-radius:.6rem;font:inherit}
+.row{display:grid;gap:1rem;grid-template-columns:1fr 1fr}
+.toolbar{display:flex;gap:.5rem;justify-content:flex-end;margin:1rem 0}
+.notice{padding:.6rem;border-radius:.6rem;background:color-mix(in srgb,var(--green) 12%, white)}
+label{font-weight:700;font-size:.9rem;margin:.6rem 0 .2rem;display:block}
+.editor{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.preview{border:1px solid var(--line);border-radius:.6rem;padding:1rem;background:#fff;overflow:auto;max-height:520px}
+.preview .prose{line-height:1.65}
+.tag-help{font-size:.8rem;color:#666;margin-top:.25rem}
+</style>
+
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+/* critical fallback */
+:root{--orange:#d05626;--green:#0d4b3f;--line:#e3eae6;--ink:#0b1f19}
+*{box-sizing:border-box}
+body{margin:0;font-family: Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);}
+.header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:1000}
+.header .container{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.6rem 1rem;max-width:1200px;margin:0 auto}
+.header .nav{display:flex;gap:.75rem;flex-wrap:wrap}
+.header .nav a{color:var(--ink);font-weight:600;text-decoration:none;padding:.25rem .25rem}
+.header .nav a:hover,.header .nav a.active{color:var(--orange)}
+.section{padding:2rem 0}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+</style>
+
+</head>
+<body>
+  <div class="admin">
+    <h1>Blog Admin — Markdown</h1>
+    <p class="notice">Paste your Firebase config JSON below (one time). Write posts in <strong>Markdown</strong>; HTML is generated automatically on publish.</p>
+    <div class="card">
+      <label>Firebase Config (JSON)</label>
+      <textarea id="cfg" rows="6" placeholder='{"apiKey":"...","authDomain":"...","projectId":"...","storageBucket":"...","messagingSenderId":"...","appId":"..."}'></textarea>
+      <div class="toolbar">
+        <button class="btn btn-outline sm" id="saveCfg">Save Config</button>
+        <button class="btn btn-outline sm" id="clearCfg">Clear Config</button>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Auth</h2>
+      <div class="row">
+        <div><label>Email</label><input id="email" type="email" placeholder="you@domain.com"></div>
+        <div><label>Password</label><input id="pass" type="password" placeholder="••••••••"></div>
+      </div>
+      <div class="toolbar">
+        <button class="btn sm" id="signup">Sign Up</button>
+        <button class="btn btn-primary sm" id="signin">Sign In</button>
+        <button class="btn btn-outline sm" id="signout">Sign Out</button>
+      </div>
+      <p id="authStatus"></p>
+    </div>
+
+    <div class="card">
+      <h2>New Post</h2>
+      <label>Title</label><input id="title">
+      <div class="row">
+        <div><label>Slug (auto from title, can edit)</label><input id="slug"></div>
+        <div><label>Date</label><input id="date" type="date"></div>
+      </div>
+      <label>Excerpt</label><textarea id="excerpt" rows="3"></textarea>
+      <label>Cover Image</label>
+      <input id="coverFile" type="file" accept="image/*">
+      <input id="coverUrl" placeholder="or paste image URL">
+      <label>Categories / Tags</label>
+      <input id="tags" placeholder="e.g. Movies, Sports, IPTV"><div class="tag-help">Comma separated. Example: <em>Movies, IPTV</em></div>
+      <label>Content (Markdown)</label>
+      <div class="editor">
+        <textarea id="contentMd" rows="18" placeholder="# Heading
+Write your article here in **Markdown**.
+
+- bullets
+- code: ```js
+console.log('hi')
+```"></textarea>
+        <div class="preview">
+          <div class="prose" id="mdPreview">Start typing to preview…</div>
+        </div>
+      </div>
+      <div class="toolbar">
+        <button class="btn btn-outline sm" id="uploadCover">Upload Cover</button>
+        <button class="btn btn-primary sm" id="publish">Publish</button>
+        <button class="btn sm" id="exportStatic">Generate Static Export</button>
+      </div>
+      <p id="status"></p>
+    </div>
+  </div>
+<script src="../js/cms.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+<script>
+const $ = s => document.querySelector(s);
+$('#saveCfg').onclick = () => { try{
+  const json = JSON.parse($('#cfg').value.trim()); localStorage.setItem('fb_config', JSON.stringify(json));
+  alert('Saved. Reload the page to initialize.');
+}catch(e){ alert('Invalid JSON'); }};
+$('#clearCfg').onclick = () => { localStorage.removeItem('fb_config'); alert('Cleared. Reload page.'); };
+function slugify(s){return s.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/(^-|-$)/g,'');}
+$('#title').addEventListener('input', e => { if(!$('#slug').value) $('#slug').value = slugify(e.target.value); });
+
+// live preview
+const md = $('#contentMd'); const preview = $('#mdPreview');
+function render(){ try{ preview.innerHTML = marked.parse(md.value || ''); } catch(e){ preview.textContent = e.message; } }
+md.addEventListener('input', render); render();
+
+$('#signup').onclick = async ()=>{
+  try{ await CMS.signUp($('#email').value, $('#pass').value); $('#authStatus').textContent='Signed up. Now sign in.';}
+  catch(e){ $('#authStatus').textContent = e.message; }
+};
+$('#signin').onclick = async ()=>{
+  try{ await CMS.signIn($('#email').value, $('#pass').value); $('#authStatus').textContent='Signed in.';}
+  catch(e){ $('#authStatus').textContent = e.message; }
+};
+$('#signout').onclick = async ()=>{ try{ await CMS.signOut(); $('#authStatus').textContent='Signed out.';} catch(e){ $('#authStatus').textContent = e.message; } };
+$('#uploadCover').onclick = async ()=>{
+  try{
+    const f = $('#coverFile').files[0]; if(!f) return alert('Choose a file first');
+    const url = await CMS.uploadCover(f); $('#coverUrl').value = url; alert('Uploaded.');
+  }catch(e){ alert(e.message); }
+};
+$('#publish').onclick = async ()=>{
+  try{
+    const html = marked.parse(md.value || '');
+    const tags = ($('#tags').value||'').split(',').map(s=>s.trim()).filter(Boolean);
+    const obj = {
+      slug: $('#slug').value || slugify($('#title').value),
+      title: $('#title').value,
+      date: $('#date').value,
+      excerpt: $('#excerpt').value,
+      cover: $('#coverUrl').value || '',
+      content: html,
+      content_md: md.value || '',
+      tags
+    };
+    await CMS.savePost(obj);
+    $('#status').textContent='Published ✔';
+  }catch(e){ $('#status').textContent = e.message; }
+};
+
+// ---- Static Export (with tags in SEO) ----
+async function fetchAllPosts(){
+  if(window.CMS && CMS.isEnabled()){
+    return await CMS.listPosts();
+  } else {
+    return await (await fetch('../js/posts.json')).json();
+  }
+}
+function escHtml(s){return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+function buildHTML({title, date, cover, content, excerpt, slug, tags}, site){
+  const iso = (date||'').slice(0,10);
+  const safeDesc = (excerpt||'').replace(/"/g,'&quot;');
+  const url = (site.baseUrl||'') + '/posts/' + slug + '/';
+  const img = cover || (site.baseUrl||'') + '/assets/social-share.png';
+  const kw = (tags&&tags.length? tags.join(', ') : '');
+  const section = (tags&&tags.length? tags[0] : 'Blog');
+  return `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>${title} — ${site.name}</title>
+<meta name="description" content="${safeDesc}">
+<meta name="keywords" content="${kw}">
+<link rel="canonical" href="${url}">
+<!-- Open Graph -->
+<meta property="og:type" content="article">
+<meta property="og:title" content="${title} — ${site.name}">
+<meta property="og:description" content="${safeDesc}">
+<meta property="og:url" content="${url}">
+<meta property="og:image" content="${img}">
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="${title} — ${site.name}">
+<meta name="twitter:description" content="${safeDesc}">
+<meta name="twitter:image" content="${img}">
+<!-- Article Schema -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": "${title}",
+  "datePublished": "${iso}",
+  "dateModified": "${iso}",
+  "author": { "@type": "Organization", "name": "${site.name}" },
+  "image": "${img}",
+  "articleSection": "${section}",
+  "keywords": "${kw}",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "${url}" }
+}
+</script>
+
+<link rel="stylesheet" href="../css/styles.css">
+
+<style>
+/* critical fallback */
+:root{--orange:#d05626;--green:#0d4b3f;--line:#e3eae6;--ink:#0b1f19}
+*{box-sizing:border-box}
+body{margin:0;font-family: Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);}
+.header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:1000}
+.header .container{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.6rem 1rem;max-width:1200px;margin:0 auto}
+.header .nav{display:flex;gap:.75rem;flex-wrap:wrap}
+.header .nav a{color:var(--ink);font-weight:600;text-decoration:none;padding:.25rem .25rem}
+.header .nav a:hover,.header .nav a.active{color:var(--orange)}
+.section{padding:2rem 0}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+</style>
+
+</head>
+<body>
+  <header class="header"><div class="container"><a href="../../index.html" class="logo">Home</a></div></header>
+  <main class="section">
+    <div class="container">
+      <article class="card prose">
+        <h1>${title}</h1>
+        ${cover ? `<img class="post-cover" src="${cover}" alt="" style="max-width:100%;border-radius:1rem;margin:.5rem 0 1rem">` : ''}
+        <time>${iso}</time>
+        <div>${content||''}</div>
+        ${kw ? `<p style="margin-top:1rem"><strong>Tags:</strong> ${escHtml(kw)}</p>` : ''}
+      </article>
+      <p><a class="btn btn-outline sm" href="../../blog.html">← Back to blog</a></p>
+    </div>
+  </main>
+  <footer class="footer"><div class="container">© ${new Date().getFullYear()} ${site.name}</div></footer>
+</body></html>`;
+}
+function buildRSS(posts, site){
+  const items = posts.map(p=>{
+    const iso=(p.date||'').slice(0,10);
+    const url=(site.baseUrl||'')+'/posts/'+p.slug+'/';
+    const desc=escHtml(p.excerpt||'');
+    return `<item>
+  <title>${escHtml(p.title)}</title>
+  <link>${url}</link>
+  <guid>${url}</guid>
+  <pubDate>${new Date(iso||Date.now()).toUTCString()}</pubDate>
+  <description>${desc}</description>
+</item>`;
+  }).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+<channel>
+  <title>${escHtml(site.name)} Blog</title>
+  <link>${site.baseUrl||''}</link>
+  <description>${escHtml(site.description||site.name+' blog')}</description>
+  ${items}
+</channel>
+</rss>`;
+}
+function buildSitemap(posts, site){
+  const urls = posts.map(p=>{
+    const url=(site.baseUrl||'')+'/posts/'+p.slug+'/';
+    return `<url><loc>${url}</loc></url>`;
+  }).join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>${site.baseUrl||''}/</loc></url>
+  <url><loc>${site.baseUrl||''}/blog.html</loc></url>
+  ${urls}
+</urlset>`;
+}
+document.getElementById('exportStatic').addEventListener('click', async ()=>{
+  try{
+    const site = {
+      name: document.title.replace(/\s*[-–].*$/, '') || 'Elite IPTV',
+      baseUrl: prompt('Enter your full site URL (https://yourdomain.com) for RSS/sitemap (optional):','')||'',
+      description: 'Elite IPTV — Movies, Sports, TV'
+    };
+    const posts = await fetchAllPosts();
+    if(!posts || !posts.length){ alert('No posts to export.'); return; }
+    const zip = new JSZip();
+    posts.forEach(p=>{
+      const html = buildHTML(p, site);
+      zip.file(`posts/${p.slug}/index.html`, html);
+    });
+    zip.file('rss.xml', buildRSS(posts, site));
+    zip.file('sitemap.xml', buildSitemap(posts, site));
+    const blob = await zip.generateAsync({type:'blob'});
+    saveAs(blob, 'static-blog-export.zip');
+    alert('Export ready: static-blog-export.zip (upload to your hosting).');
+  }catch(e){
+    alert('Export failed: ' + e.message);
+  }
+});
+</script>
+</body>
+</html>

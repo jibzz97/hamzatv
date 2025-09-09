@@ -1,0 +1,18 @@
+[
+  {
+    "slug": "welcome-to-elite-iptv",
+    "title": "Welcome to the Elite IPTV Blog",
+    "date": "2025-09-03",
+    "cover": "",
+    "excerpt": "News, updates and tutorials to help you get the most from your IPTV setup.",
+    "content": "<p>Here we’ll share product updates, device tutorials and tips for smoother streaming.</p><h2>What to expect</h2><p>Setup guides, troubleshooting tips, and announcements.</p>"
+  },
+  {
+    "slug": "smart-tv-setup-guide",
+    "title": "Smart TV Setup: The 5-Minute Guide",
+    "date": "2025-08-27",
+    "cover": "",
+    "excerpt": "How to connect your Smart TV app with M3U/Portal in minutes.",
+    "content": "<p>Install a compatible IPTV app, add your M3U or Portal URL, then restart the app.</p><ul><li>Samsung: Tizen-compatible apps</li><li>LG: webOS IPTV players</li><li>Android TV: multiple choices</li></ul>"
+  }
+]

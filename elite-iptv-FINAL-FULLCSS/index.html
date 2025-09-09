@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Elite IPTV — Premium Live TV & VOD</title>
+  <meta name="description" content="Premium IPTV service with stable streams, sports, movies & series. Works on Smart TV, Android, iOS, and Web.">
+  <meta name="theme-color" content="#004830">
+  
+<link rel="stylesheet" href="css/styles.css">
+
+<style>
+/* critical fallback */
+:root{--orange:#d05626;--green:#0d4b3f;--line:#e3eae6;--ink:#0b1f19}
+*{box-sizing:border-box}
+body{margin:0;font-family: Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink);}
+.header{position:sticky;top:0;background:#fff;border-bottom:1px solid var(--line);z-index:1000}
+.header .container{display:flex;align-items:center;justify-content:space-between;gap:.75rem;padding:.6rem 1rem;max-width:1200px;margin:0 auto}
+.header .nav{display:flex;gap:.75rem;flex-wrap:wrap}
+.header .nav a{color:var(--ink);font-weight:600;text-decoration:none;padding:.25rem .25rem}
+.header .nav a:hover,.header .nav a.active{color:var(--orange)}
+.section{padding:2rem 0}
+.container{max-width:1200px;margin:0 auto;padding:0 1rem}
+.card{border:1px solid var(--line);border-radius:12px;background:#fff;box-shadow:0 1px 2px rgba(0,0,0,.03)}
+</style>
+
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <div>🔥 Summer Deal: 3 Months <strong>-20%</strong></div>
+      <div class="topbar-contacts">
+        <a href="https://wa.me/0000000000" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="https://t.me/your_channel" target="_blank" rel="noopener">Telegram</a>
+        <a href="mailto:hello@example.com">Email</a>
+      </div>
+    </div>
+  </div>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="#home"><img src="assets/logo.svg" alt="Elite IPTV" width="148" height="36"></a>
+      <nav id="nav" class="nav">
+        <a href="#pricing">Pricing</a>
+        <a href="blog.html">Blog</a>
+        <a href="servers.html">IPTV Servers</a>
+        <a class="btn btn-primary sm" href="#order">Order</a>
+      </nav>
+      <button class="hamburger" id="hamburger" aria-label="Open Menu" aria-controls="nav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <h1>All your TV in one place.</h1>
+          <p>Live sports, movies & series with ultra‑stable streaming. 10,000+ channels & VOD libraries.</p>
+          <div class="hero-badges">
+            <span>Instant Activation</span><span>4K / FHD</span><span>No Buffering</span>
+          </div>
+          <div class="cta">
+            <a class="btn btn-primary" href="https://wa.me/0000000000" target="_blank" rel="noopener">Order on WhatsApp</a>
+            <a class="btn btn-outline" href="#pricing">View Plans</a>
+          </div>
+          <div class="pay-logos">
+            <img src="assets/payments/binance.svg" alt="Binance Pay">
+            <img src="assets/payments/visa.svg" alt="Visa">
+            <img src="assets/payments/mastercard.svg" alt="Mastercard">
+            <img src="assets/payments/crypto.svg" alt="Crypto">
+          </div>
+        </div>
+        <div class="hero-art"><img src="assets/hero-devices.svg" alt="Devices" /></div>
+      </div>
+      <div class="hero-wave" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- SLIDER: autoplay hero slider -->
+    <section id="highlights" class="section slider">
+      <div class="container">
+        <div class="slides" id="slides">
+          <article class="slide card">
+            <h3>⚽ Live Sports Weekend</h3>
+            <p>Bundesliga, La Liga, Premier League & more — all in FHD/4K.</p>
+            <a class="btn btn-primary sm" href="#pricing">See Plans</a>
+          </article>
+          <article class="slide card">
+            <h3>🎬 New Movies & Series</h3>
+            <p>Fresh VOD updated daily. Hollywood, European & Arabic content.</p>
+            <a class="btn btn-primary sm" href="#pricing">Start Watching</a>
+          </article>
+          <article class="slide card">
+            <h3>🕒 Instant Activation</h3>
+            <p>Order on WhatsApp and get credentials within minutes.</p>
+            <a class="btn btn-primary sm" href="https://wa.me/0000000000" target="_blank">Order Now</a>
+          </article>
+        </div>
+        <div class="slider-controls">
+          <button class="slider-btn" id="prevSlide" aria-label="Previous">‹</button>
+          <div class="dots" id="slideDots"></div>
+          <button class="slider-btn" id="nextSlide" aria-label="Next">›</button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- MOVIES BANNER -->
+    <section id="movies-banner" class="section latest latest--movies">
+      <div class="container">
+        <div class="latest-hero">
+          <div class="latest-title">
+            <span class="eyebrow">THE</span>
+            <h2>LATEST</h2>
+            <h2>MOVIES CHANNELS</h2>
+          </div>
+          <div class="latest-strip">
+            <button class="strip-btn" id="moviesPrev" aria-label="Previous">‹</button>
+            <div class="strip" id="moviesStrip">
+              <a class="tile" href="#"><img src="assets/movies/m1.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/movies/m2.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/movies/m3.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/movies/m4.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/movies/m5.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/movies/m6.jpg" alt=""></a>
+            </div>
+            <button class="strip-btn" id="moviesNext" aria-label="Next">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+    <!-- SPORTS BANNER -->
+    <section id="sports-banner" class="section latest latest--sports">
+      <div class="container">
+        <div class="latest-hero">
+          <div class="latest-title">
+            <span class="eyebrow">ALL</span>
+            <h2>YOUR</h2>
+            <h2>SPORT CHANNELS</h2>
+          </div>
+          <div class="latest-strip">
+            <button class="strip-btn" id="sportsPrev" aria-label="Previous">‹</button>
+            <div class="strip" id="sportsStrip">
+              <a class="tile" href="#"><img src="assets/sport/s1.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/sport/s2.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/sport/s3.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/sport/s4.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/sport/s5.jpg" alt=""></a>
+              <a class="tile" href="#"><img src="assets/sport/s6.jpg" alt=""></a>
+            </div>
+            <button class="strip-btn" id="sportsNext" aria-label="Next">›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+
+
+
+    <section id="features" class="section">
+      <div class="container">
+        <h2 class="section-title">Why choose Elite IPTV</h2>
+        <div class="grid features">
+          <article class="card feature"><div class="i i-rocket"></div><h3>Ultra‑stable</h3><p>Enterprise‑grade servers for smooth playback during big matches.</p></article>
+          <article class="card feature"><div class="i i-uhd"></div><h3>4K / FHD</h3><p>Crystal‑clear picture quality where supported by channels and devices.</p></article>
+          <article class="card feature"><div class="i i-vod"></div><h3>Huge VOD</h3><p>Movies & series updated frequently with multi‑language audio/subs.</p></article>
+          <article class="card feature"><div class="i i-support"></div><h3>Fast support</h3><p>Direct help via WhatsApp & Telegram, 7 days a week.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="steps" class="section alt">
+      <div class="container">
+        <h2 class="section-title">Get started in 3 steps</h2>
+        <div class="grid steps">
+          <div class="step card"><div class="step-num">1</div><h3>Choose your plan</h3><p>Select Monthly, 3‑Month or Yearly for best value.</p></div>
+          <div class="step card"><div class="step-num">2</div><h3>Activate</h3><p>Receive credentials by WhatsApp/email within minutes.</p></div>
+          <div class="step card"><div class="step-num">3</div><h3>Enjoy</h3><p>Watch on Smart TV, Android TV, iOS, or Web — anywhere.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+      <div class="container">
+        <h2 class="section-title">Plans for everyone</h2>
+        <div class="billing-toggle">
+          <span>Monthly</span>
+          <label class="switch"><input type="checkbox" id="billingToggle"><span class="slider"></span></label>
+          <span>Yearly <small class="save">save 20%</small></span>
+        </div>
+        <div class="grid pricing">
+          <article class="card plan">
+            <div class="plan-head"><h3>1 Month</h3><span class="ribbon">Best for testing</span></div>
+            <p class="price"><span class="currency">€</span><span class="amount" data-monthly="12" data-yearly="10">12</span><span class="per">/mo</span></p>
+            <ul class="list"><li>Live TV + VOD</li><li>1 connection</li><li>Support via WhatsApp</li></ul>
+            <a class="btn btn-primary" href="https://wa.me/0000000000" target="_blank">Order</a>
+          </article>
+          <article class="card plan popular">
+            <div class="plan-head"><h3>3 Months</h3><span class="ribbon ribbon-orange">Popular</span></div>
+            <p class="price"><span class="currency">€</span><span class="amount" data-monthly="30" data-yearly="24">30</span><span class="per">/3 mo</span></p>
+            <ul class="list"><li>Live TV + VOD</li><li>1–2 connections</li><li>Priority support</li></ul>
+            <a class="btn btn-primary" href="https://wa.me/0000000000" target="_blank">Order</a>
+          </article>
+          <article class="card plan">
+            <div class="plan-head"><h3>12 Months</h3><span class="ribbon">Save more</span></div>
+            <p class="price"><span class="currency">€</span><span class="amount" data-monthly="80" data-yearly="64">80</span><span class="per">/yr</span></p>
+            <ul class="list"><li>Live TV + VOD</li><li>Up to 2 connections</li><li>Free setup</li></ul>
+            <a class="btn btn-primary" href="https://wa.me/0000000000" target="_blank">Order</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="channels" class="section alt">
+      <div class="container">
+        <h2 class="section-title">Channels by country</h2>
+        <div class="country-filter">
+          <button class="chip active" data-country="all">All</button>
+          <button class="chip" data-country="de"><img src="assets/flags/de.svg" alt="">Germany</button>
+          <button class="chip" data-country="fr"><img src="assets/flags/fr.svg" alt="">France</button>
+          <button class="chip" data-country="es"><img src="assets/flags/es.svg" alt="">Spain</button>
+          <button class="chip" data-country="it"><img src="assets/flags/it.svg" alt="">Italy</button>
+          <button class="chip" data-country="uk"><img src="assets/flags/uk.svg" alt="">UK</button>
+          <button class="chip" data-country="us"><img src="assets/flags/us.svg" alt="">USA</button>
+          <button class="chip" data-country="ma"><img src="assets/flags/ma.svg" alt="">Morocco</button>
+          <button class="chip" data-country="sa"><img src="assets/flags/sa.svg" alt="">Saudi</button>
+          <button class="chip" data-country="tr"><img src="assets/flags/tr.svg" alt="">Turkey</button>
+        </div>
+        <div class="grid channels" id="channelGrid"></div>
+      </div>
+    
+    <!-- SHOWCASE: curated packages/device mockups -->
+  
+    <section id="showcase" class="section">
+      <div class="container">
+        <h2 class="section-title">Showcase</h2>
+        <div class="grid showcase">
+          <article class="card showcase-card">
+            <h3>European Sports Pack</h3>
+            <ul>
+              <li>DE/UK/ES/IT premium sports</li>
+              <li>Stable 50/60fps</li>
+              <li>No buffering, anti-freeze</li>
+            </ul>
+          </article>
+          <article class="card showcase-card">
+            <h3>Arabic & North Africa</h3>
+            <ul>
+              <li>MA/SA/AE channels</li>
+              <li>Kids & series libraries</li>
+              <li>Works on Smart TV & Android</li>
+            </ul>
+          </article>
+          <article class="card showcase-card">
+            <h3>Cinema Lovers</h3>
+            <ul>
+              <li>Massive VOD (movies/series)</li>
+              <li>Daily updates</li>
+              <li>Multi‑language audio/subs</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+
+    <section id="devices" class="section">
+      <div class="container">
+        <h2 class="section-title">Works everywhere</h2>
+        <div class="grid device-logos">
+          <div class="device"><img src="assets/devices/samsung.svg" alt="Samsung"></div>
+          <div class="device"><img src="assets/devices/lg.svg" alt="LG"></div>
+          <div class="device"><img src="assets/devices/androidtv.svg" alt="Android TV"></div>
+          <div class="device"><img src="assets/devices/ios.svg" alt="iOS"></div>
+          <div class="device"><img src="assets/devices/mag.svg" alt="MAG"></div>
+          <div class="device"><img src="assets/devices/web.svg" alt="Web Player"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="order" class="cta-banner">
+      <div class="container cta-banner-inner">
+        <h3>Ready to watch?</h3>
+        <p>Message us on WhatsApp to get your access now.</p>
+        <a class="btn btn-white" href="https://wa.me/0000000000" target="_blank">Order on WhatsApp</a>
+        <a class="btn btn-trans" href="https://pay.binance.com/en" target="_blank">Pay with Crypto</a>
+      </div>
+    </section>
+
+    <section id="faq" class="section">
+      <div class="container">
+        <h2 class="section-title">FAQ</h2>
+        <details class="faq"><summary>Do you offer trials?</summary><p>Offer a small paid trial to test your device and network.</p></details>
+        <details class="faq"><summary>Can I use multiple devices?</summary><p>Yes, according to the number of connections in your plan.</p></details>
+        <details class="faq"><summary>How fast is activation?</summary><p>Usually within minutes after payment confirmation.</p></details>
+        <details class="faq"><summary>Refund policy?</summary><p>Check service quality with a short plan before going yearly.</p></details>
+      </div>
+    </section>
+
+    <section id="contact" class="section alt">
+      <div class="container contact-grid">
+        <div>
+          <h2 class="section-title">Contact</h2>
+          <p>We reply fast on WhatsApp.</p>
+          <p><a class="link" href="https://wa.me/0000000000" target="_blank">wa.me/0000000000</a></p>
+          <p><a class="link" href="mailto:hello@example.com">hello@example.com</a></p>
+        </div>
+        <form class="contact-form" id="contactForm" onsubmit="return false;">
+          <label><span>Name</span><input type="text" required></label>
+          <label><span>Email</span><input type="email" required></label>
+          <label><span>Message</span><textarea rows="4" required></textarea></label>
+          <button class="btn btn-primary" type="submit">Send</button>
+          <p class="form-note">Hook this to Formspree / backend.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div><img src="assets/logo.svg" width="148" height="36" alt="Elite IPTV"><p class="muted">Premium IPTV with reliable streams across all your devices.</p></div>
+      <nav class="footer-nav">
+        <a href="#features">Features</a><a href="#pricing">Pricing</a><a href="blog.html">Blog</a><a href="#movies-banner">Movies</a>
+        <a href="#sports-banner">Sports</a>
+        <a href="servers.html">IPTV Servers</a>
+        <a href="#faq">FAQ</a><a href="privacy.html">Privacy</a><a href="terms.html">Terms</a>
+      </nav>
+      <div class="foot-cta"><a class="btn btn-primary" href="https://wa.me/0000000000" target="_blank">Order on WhatsApp</a></div>
+    </div>
+    <div class="container copy">© <span id="year"></span> Elite IPTV. All rights reserved.</div>
+  </footer>
+
+  <a href="https://wa.me/0000000000" class="whatsapp-fab" target="_blank" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.94 14.5L2 22l5.67-1.49A10 10 0 1 0 12 2zM7 17l.38-2.2A7 7 0 1 1 19 12a7 7 0 0 1-12 5z"/><path d="M16.2 13.7c-.2-.1-1.1-.5-1.2-.5s-.3-.1-.4.1-.4.5-.6.6c-.1.1-.2.1-.4 0s-.8-.3-1.5-1c-.6-.6-1-1.2-1.1-1.3s0-.3.1-.4c.1-.1.2-.3.3-.4.1-.1.1-.2.2-.3.1-.1.1-.2 0-.4s-.4-1-0.6-1.4c-.2-.4-.3-.3-.4-.3h-.3c-.1 0-.3.1-.4.2-.2.2-.6.6-.6 1.5s.6 1.7.7 1.9c.1.2 1.2 1.9 2.9 2.7.4.2.8.4 1.1.5.5.2 1 .2 1.4.1.4-.1 1.1-.5 1.3-1 .2-.5.2-.9.1-1 0 0-.1 0-.3-.1z"/></svg>
+  </a>
+
+  <script src="js/app.js"></script>
+  <script src="js/channels.js"></script>
+</body>
+</html>
